@@ -1,0 +1,34 @@
+{
+  "name": "task-manager-express-js",
+  "version": "1.0.0",
+  "description": "Express framework with mongodb to perform REST API for task app.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rahulss16/task-manager.git"
+  },
+  "keywords": [
+    "Task-APP-API",
+    "Node.js - Task App",
+    "Task Manager"
+  ],
+  "author": "Rahul Singh Shekhawat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Rahulss16/task-manager/issues"
+  },
+  "homepage": "https://github.com/Rahulss16/task-manager#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.0",
+    "express": "^4.18.1",
+    "express-validator": "^6.14.0",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.3",
+    "mongoose": "^6.3.3"
+  }
+}
