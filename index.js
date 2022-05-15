@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const Routes = require('./routes')
 const InitiateMongoServer = require('./config/db')
 
 // Initiate Mongo Server
@@ -27,6 +28,8 @@ app.use(function (req, res, next) {
   )
   next()
 })
+
+app.use('/auth', Routes.authentication)
 
 app.listen(PORT, (req, res) => {
   console.log(`Server Started at PORT ${PORT}`)
