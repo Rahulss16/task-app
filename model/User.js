@@ -40,6 +40,10 @@ const UserSchema = mongoose.Schema({
         trim: true,
         default: 0
     },
+    confirmationCode: {
+        type: String,
+        unique: true
+    },
     tokens: [
         {
             token: {
