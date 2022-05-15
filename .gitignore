@@ -104,5 +104,4 @@ dist
 .tern-port
 
 #config files
-
 config/auth.config.js
