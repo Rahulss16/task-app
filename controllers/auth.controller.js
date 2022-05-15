@@ -85,7 +85,7 @@ const login = async (req, res) => {
     try {
         let user = await User.findOne({
             email,
-            status: 0
+            status: 1
         })
         if (!user)
             return res.status(200).json({
