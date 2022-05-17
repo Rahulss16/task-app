@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const configValues = require('../config/auth.config')
 
 const UserSchema = mongoose.Schema({
     name: {
@@ -71,7 +72,7 @@ UserSchema.methods.getPublicProfile = function () {
 UserSchema.methods.generateAuthToken = async function () {
     const user = this
 
-    const token = jwt.sign({ _id: user._id.toString() }, 'randomString', {
+    const token = jwt.sign({ _id: user._id.toString() }, configValues.secret, {
         expiresIn: 8640000
     })
     user.tokens = user.tokens.concat({ token })

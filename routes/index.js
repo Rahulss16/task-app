@@ -1,5 +1,7 @@
-var authentication = require('./Authentication');
+var Authentication = require('./Authentication'),
+    Task = require('./Task');
 
 module.exports = {
-    authentication: authentication
+    Authentication: Authentication,
+    Task: Task
 }

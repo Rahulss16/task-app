@@ -29,7 +29,8 @@ app.use(function (req, res, next) {
   next()
 })
 
-app.use('/auth', Routes.authentication)
+app.use('/auth', Routes.Authentication)
+app.use('/tasks', Routes.Task)
 
 app.listen(PORT, (req, res) => {
   console.log(`Server Started at PORT ${PORT}`)
