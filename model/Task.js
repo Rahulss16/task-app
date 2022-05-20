@@ -8,8 +8,13 @@ const taskSchema = mongoose.Schema({
     },
     description: {
         type: String,
-        required: true,
+        required: false,
         trim: true
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
     },
     status: {
         type: Boolean,
