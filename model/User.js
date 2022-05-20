@@ -59,6 +59,11 @@ const UserSchema = mongoose.Schema({
     }
 })
 
+UserSchema.virtual('Task', {
+    ref: 'Task',
+    localField: '_id',
+    foreignField: 'userId'
+})
 UserSchema.methods.getPublicProfile = function () {
     const user = this
     const userObject = user.toObject()

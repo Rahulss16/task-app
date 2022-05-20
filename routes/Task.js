@@ -15,4 +15,20 @@ router.get(
     TaskController.getAllTasks
 )
 
+/**
+ * 
+ */
+
+router.post(
+    '/',
+    [
+        check('title', 'Task must have a title')
+            .notEmpty()
+            .isString(),
+        check('userId', 'Task must have a user id')
+            .notEmpty()
+    ],
+    auth,
+    TaskController.createTask
+)
 module.exports = router
