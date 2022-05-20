@@ -14,7 +14,11 @@ router.get(
     auth,
     TaskController.getAllTasks
 )
-
+router.get(
+    '/:id',
+    auth,
+    TaskController.getTaskById
+)
 /**
  * 
  */
@@ -31,4 +35,23 @@ router.post(
     auth,
     TaskController.createTask
 )
+
+/**
+ * 
+ */
+
+router.put(
+    '/:id',
+    auth,
+    TaskController.updateTaskById
+)
+/**
+ * 
+ */
+router.delete(
+    '/:id',
+    auth,
+    TaskController.deleteTaskById
+)
+
 module.exports = router

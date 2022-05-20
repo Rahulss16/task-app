@@ -1,7 +1,8 @@
+const mongoose = require('mongoose')
 const TaskModel = require('../model/Task');
 const { validationResult } = require('express-validator')
 const User = require('../model/User')
-const getAllTasks = async (req, res, next) => {
+const getAllTasks = async (req, res) => {
     try {
         const tasks = await TaskModel.find({})
             .sort({ _id: -1 })
@@ -21,8 +22,7 @@ const getAllTasks = async (req, res, next) => {
         })
     }
 }
-
-const createTask = async (req, res, next) => {
+const createTask = async (req, res) => {
     const errors = validationResult(req)
     if (!errors.isEmpty()) {
         return res.status(200).json({
@@ -33,7 +33,7 @@ const createTask = async (req, res, next) => {
         })
     }
     try {
-        const { title, description, userId } = req.body
+        const { title, description, userId, status } = req.body
         const user = await User.findById(userId, {
             tokens: 0,
             password: 0,
@@ -51,7 +51,8 @@ const createTask = async (req, res, next) => {
         const task = new TaskModel({
             title,
             description,
-            userId
+            userId,
+            status
         });
         await task.save()
 
@@ -72,8 +73,109 @@ const createTask = async (req, res, next) => {
     }
 
 }
+const getTaskById = async (req, res) => {
+    try {
+        const { id } = req.params
+        const task = await TaskModel.findById(id, {}).exec()
 
+        if (task != null && task) {
+            res.status(200).json({
+                statusCode: 200,
+                status: 'success',
+                data: task,
+                message: ''
+            })
+        } else {
+            res.status(200).json({
+                statusCode: 404,
+                status: 'error',
+                data: {},
+                message: 'Task not found'
+            })
+        }
+    } catch (error) {
+        res.status(500).json({
+            statusCode: 500,
+            status: 'error',
+            message: 'Task not found',
+            messageOnServer: error.message,
+            data: {}
+        })
+    }
+}
+const updateTaskById = async (req, res) => {
+    const { id } = req.params
+    if (mongoose.Types.ObjectId.isValid(id)) {
+        const task = await TaskModel.findById(id, {}).exec()
+
+        if (task != null && task) {
+            const { title, description, status } = req.body
+            const task = await TaskModel.findByIdAndUpdate(id, {
+                title,
+                description,
+                status
+            }, {
+                new: true,
+                runValidators: true
+            })
+            res.status(200).json({
+                statusCode: 200,
+                status: 'success',
+                data: task,
+                message: ''
+            })
+        } else {
+            res.status(200).json({
+                statusCode: 404,
+                status: 'error',
+                data: {},
+                message: 'Task not found'
+            })
+        }
+
+    } else {
+        res.status(200).json({
+            statusCode: 404,
+            status: 'error',
+            message: 'Task not found',
+            data: {}
+        })
+    }
+}
+const deleteTaskById = async (req, res) => {
+    const { id } = req.params
+    if (mongoose.Types.ObjectId.isValid(id)) {
+        const task = await TaskModel.findById(id, {}).exec()
+
+        if (task != null && task) {
+            const task = await TaskModel.findByIdAndDelete(id).exec()
+            res.status(200).json({
+                statusCode: 200,
+                status: 'success',
+                data: {},
+                message: 'Task Deleted'
+            })
+        } else {
+            res.status(200).json({
+                statusCode: 404,
+                status: 'error',
+                data: {},
+                message: 'Task not found'
+            })
+        }
+    } else {
+        res.status(200).json({
+            statusCode: 404,
+            status: 'error',
+            message: 'Task not found',
+            data: {}
+        })
+    }
+}
 module.exports = {
     getAllTasks: getAllTasks,
-    createTask: createTask
+    getTaskById: getTaskById,
+    createTask: createTask,
+    updateTaskById: updateTaskById,
+    deleteTaskById: deleteTaskById
 }
