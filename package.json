@@ -4,7 +4,8 @@
   "description": "Express framework with mongodb to perform REST API for task app.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev" : "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "nodemailer": "^6.7.5"
   },
   "devDependencies": {
-    "eslint": "^8.15.0"
+    "eslint": "^8.15.0",
+    "nodemon": "^2.0.20"
   }
 }
