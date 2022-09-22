@@ -121,7 +121,7 @@ const login = async (req, res) => {
     }
 }
 
-const verifyUser = async (req, res, next) => {
+const verifyUser = async (req, res) => {
     User.findOne({
         confirmationCode: req.params.confirmationCode,
     })
@@ -161,8 +161,32 @@ const verifyUser = async (req, res, next) => {
             })
         });
 }
+
+const logout = async (req, res) => {
+    try {
+        req.user.tokens = req.user.tokens.filter(token => {
+            return token.token !== req.token
+        })
+        await req.user.save()
+
+        res.status(200).json({
+            statusCode: 200,
+            status: 'success',
+            message: 'Logout successfully!',
+            data: {}
+        })
+    } catch (error) {
+        res.status(500).json({
+            statusCode: 500,
+            status: 'error',
+            message: error.message,
+            data: {}
+        })
+    }
+}
 module.exports = {
     signup: signup,
     login: login,
+    logout: logout,
     verifyUser: verifyUser
 }

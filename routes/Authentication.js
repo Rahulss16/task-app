@@ -1,7 +1,7 @@
 const express = require('express')
 const { check } = require('express-validator')
 const router = express.Router()
-
+const auth = require('../middleware/auth')
 const AuthController = require('../controllers/auth.controller')
 
 /**
@@ -40,6 +40,12 @@ router.post(
 router.get(
     '/confirm/:confirmationCode',
     AuthController.verifyUser
+)
+
+router.all(
+    '/logout',
+    auth,
+    AuthController.logout
 )
 
 module.exports = router
