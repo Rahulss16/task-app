@@ -1,5 +1,5 @@
 const express = require('express')
-const { check } = require('express-validator')
+const { check, body } = require('express-validator')
 const auth = require('../middleware/auth')
 const router = express.Router()
 
@@ -30,7 +30,8 @@ router.post(
             .notEmpty()
             .isString(),
         check('userId', 'Task must have a user id')
-            .notEmpty()
+            .notEmpty(),
+        body('dueDate', 'Task must have a Due Date').not().isEmpty()
     ],
     auth,
     TaskController.createTask

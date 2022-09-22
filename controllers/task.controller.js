@@ -33,7 +33,7 @@ const createTask = async (req, res) => {
         })
     }
     try {
-        const { title, description, userId, status } = req.body
+        const { title, description, userId, isImportant, dueDate } = req.body
         const user = await User.findById(userId, {
             tokens: 0,
             password: 0,
@@ -52,7 +52,8 @@ const createTask = async (req, res) => {
             title,
             description,
             userId,
-            status
+            isImportant,
+            dueDate
         });
         await task.save()
 
@@ -109,11 +110,14 @@ const updateTaskById = async (req, res) => {
         const task = await TaskModel.findById(id, {}).exec()
 
         if (task != null && task) {
-            const { title, description, status } = req.body
+            const { title, description, status, isImportant, dueDate } = req.body
             const task = await TaskModel.findByIdAndUpdate(id, {
                 title,
                 description,
-                status
+                status,
+                isImportant,
+                dueDate,
+                updatedAt: Date.now()
             }, {
                 new: true,
                 runValidators: true
@@ -148,7 +152,14 @@ const deleteTaskById = async (req, res) => {
         const task = await TaskModel.findById(id, {}).exec()
 
         if (task != null && task) {
-            const task = await TaskModel.findByIdAndDelete(id).exec()
+            await TaskModel.findByIdAndUpdate(id, {
+                deletedAt: Date.now()
+            }, {
+                new: true,
+                runValidators: true
+            })
+            
+            // const task = await TaskModel.findByIdAndDelete(id).exec() // Hard Delete
             res.status(200).json({
                 statusCode: 200,
                 status: 'success',

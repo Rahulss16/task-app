@@ -12,9 +12,15 @@ const app = express()
 const PORT = process.env.PORT || 1997
 
 // Middleware
-// app.use(bodyParser.json())
-app.use(express.json())
-
+app.use(express.json({limit: "5mb"}));
+app.use(express.urlencoded({ limit: "5mb", extended: true }));
+app.use(
+  bodyParser.json({
+    verify: function (req, res, buf) {
+      req.rawBody = buf;
+    },
+  })
+);
 app.get('/', (req, res) => {
   res.json({ message: 'API Working' })
 })

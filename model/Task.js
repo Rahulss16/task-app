@@ -24,11 +24,13 @@ const taskSchema = mongoose.Schema({
         type: Boolean,
         default: 0
     },
-    duedate: {
-        type: Date
+    dueDate: {
+        type: Date,
+        required: true
     },
     deletedAt: {
         type: Date,
+        required: false
     },
     createdAt: {
         type: Date,
@@ -36,8 +38,14 @@ const taskSchema = mongoose.Schema({
     },
     updatedAt: {
         type: Date,
-        default: Date.now()
+        required: false
     }
+})
+taskSchema.pre('find', function() {
+    this.where({ deletedAt : null })
+})
+taskSchema.pre('findOne', function() {
+    this.where({ deletedAt : null })
 })
 
 module.exports = mongoose.model('Task', taskSchema)
