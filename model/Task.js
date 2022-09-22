@@ -20,7 +20,21 @@ const taskSchema = mongoose.Schema({
         type: Boolean,
         default: 0
     },
+    isImportant: {
+        type: Boolean,
+        default: 0
+    },
+    duedate: {
+        type: Date
+    },
+    deletedAt: {
+        type: Date,
+    },
     createdAt: {
+        type: Date,
+        default: Date.now()
+    },
+    updatedAt: {
         type: Date,
         default: Date.now()
     }
